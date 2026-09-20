@@ -14,7 +14,9 @@ def main():
     claude = shutil.which("claude")
     if not claude:
         sys.exit("Claude Code não encontrado no PATH.")
-    key = getpass.getpass("Chave OpenRouter (oculta): ").strip()
+    key = os.environ.get("OPENROUTER_API_KEY", "").strip()
+    if not key:
+        key = getpass.getpass("Chave OpenRouter (oculta): ").strip()
     if not key:
         sys.exit("Chave vazia. Cancelado.")
 
