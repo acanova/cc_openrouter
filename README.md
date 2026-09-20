@@ -18,22 +18,47 @@ Run the script from the directory where you want Claude Code to work:
 python3 /path/to/cc_openrouter.py
 ```
 
+On macOS or Linux, you can make it directly executable once:
+
+```sh
+chmod +x /path/to/cc_openrouter.py
+```
+
+Then run it without typing `python3`:
+
+```sh
+/path/to/cc_openrouter.py
+```
+
+The script's first line selects Python 3 automatically. Git records the executable bit, so once this mode change is committed, macOS and Linux users should receive it when they clone the repository. Windows users can continue to run `python cc_openrouter.py` or `python3 cc_openrouter.py`.
+
+To make the launcher available from any directory, install it somewhere on your `PATH`:
+
+```sh
+mkdir -p ~/.local/bin
+install -m 755 cc_openrouter.py ~/.local/bin/cc-openrouter
+```
+
+If `~/.local/bin` is not already on your `PATH`, add this to `~/.zshrc` or `~/.bashrc`:
+
+```sh
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Open a new terminal, enter any project directory, and run:
+
+```sh
+cc-openrouter
+```
+
 Paste your OpenRouter key when prompted, then choose a model by number. The key is hidden while you type; the script uses it for OpenRouter requests and passes it to the Claude Code process it starts.
 
 You can also provide the key through an environment variable:
 
 ```sh
 export OPENROUTER_API_KEY="your-key-here"
-python3 /path/to/cc_openrouter.py
+cc-openrouter
 ```
-
-For repeated use, a shell alias keeps the command short:
-
-```sh
-alias cc-openrouter='python3 /path/to/cc_openrouter.py'
-```
-
-Add the alias to `~/.zshrc` or `~/.bashrc` to keep it between terminal sessions.
 
 ### Keeping the key handy
 
@@ -52,7 +77,7 @@ Avoid putting the key directly in shell history or committing it to a file. A fe
   ```sh
   cc-openrouter() {
     OPENROUTER_API_KEY="$(security find-generic-password -a "$USER" -s openrouter-api-key -w)" \
-      python3 /path/to/cc_openrouter.py
+      command cc-openrouter
   }
   ```
 
